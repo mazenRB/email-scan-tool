@@ -1,0 +1,19 @@
+<!--mail-header.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+<form action="/parse-result/" method="post" name="parseEmail">
+    <label for="exampleFormControlTextarea1">E-Mail Header Analyser</label>
+    <textarea name="mail" placeholder="E-Mail Header oder Raw-Mail einfügen" class="form-control" id="EMail-Textarea" rows="4" required></textarea>
+</br>
+    <button type="submit" value="Parse" id="btnFetch" class="btn btn-primary mb-2">
+      Analyse
+    </button>
+  </form>
+
+
+
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

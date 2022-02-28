@@ -1,0 +1,146 @@
+<!--url-result.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+<div class="ScanResultInfo">
+  <div style="margin-bottom: 5px">
+    <h1>Title: {{.title}} </h1>
+    {{if not .result.Meta.URLInfo.URL}}
+    <h5 style="margin-bottom: 0px;">Filename:</h5> {{.filename}}
+    <h5 style="margin-bottom: 0px;">SHA256:</h5> {{.result.Meta.FileInfo.Sha256}}
+    <h5 style="margin-bottom: 0px;">SHA1:</h5> {{.result.Meta.FileInfo.Sha1}}
+    <h5 style="margin-bottom: 0px;">MD5:</h5> {{.result.Meta.FileInfo.Md5}}
+    <h5 style="margin-bottom: 0px;">Size in MB:</h5> {{.result.Meta.FileInfo.Size}}
+    {{end}}
+    {{if .result.Meta.URLInfo.URL}}
+    <h5 style="margin-bottom: 0px;">URL:</h5>
+    <a href="{{.result.Meta.URLInfo.URL}}" style="margin-bottom: 8px; overflow:hidden"
+      >{{.result.Meta.URLInfo.URL}}</a
+    >
+    {{end}}
+  </div>
+  <h5 style="margin-bottom: 0px;">Scan Status: </h5>
+  {{.result.Data.Attributes.Status}}
+  <h5 style="margin-bottom: 0px;">
+    Date:
+    <!--Scan ID: <br/> {{.id}}-->
+  </h5>
+  <span style="margin-top: 8px;"> {{.result.Data.Attributes.Date }} </span> 
+</div>
+
+<!--
+<div style="padding-bottom: 5px">
+  <h5>Scan Results for:</h5>
+  <a href="{{.result.Meta.URLInfo.URL}}" style="margin-bottom: 8px"
+    >{{.result.Meta.URLInfo.URL}}</a
+  >
+</div>
+<div>
+  <h5>Scan Status: {{.result.Data.Attributes.Status}}</h5>
+</div>-->
+<!--Convert Unix Time to UTC Time ?!?! -->
+
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-lg-2 col-sm-4">
+      <div class="score-tile">
+        <div class="score-tile-content red">
+          <div class="score-tile-description text-faded">Malicious</div>
+          <div class="score-tile-number text-faded">{{.result.Data.Attributes.Stats.Malicious}}</div>
+          <div class="score-tile-footer" 
+            ><i class="fa fa-chevron-score-right"></i
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-sm-4">
+      <div class="score-tile">
+        <div class="score-tile-content orange">
+          <div class="score-tile-description text-faded">Suspicious</div>
+          <div class="score-tile-number text-faded">{{.result.Data.Attributes.Stats.Suspicious}}</div>
+          <div class="score-tile-footer" 
+            ><i class="fa fa-chevron-score-right"></i
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-sm-4">
+      <div class="score-tile">
+        <div class="score-tile-content yellow">
+          <div class="score-tile-description text-faded">Undetected</div>
+          <div class="score-tile-number text-faded">{{.result.Data.Attributes.Stats.Undetected}}</div>
+          <a class="score-tile-footer" href="#"
+            ><i class="fa fa-chevron-score-right"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-sm-4">
+      <div class="score-tile">
+        <div class="score-tile-content green">
+          <div class="score-tile-description text-faded">Harmless</div>
+          <div class="score-tile-number text-faded">{{.result.Data.Attributes.Stats.Harmless}}</div>
+          <div class="score-tile-footer" 
+            ><i class="fa fa-chevron-score-right"></i
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-sm-4">
+      <div class="score-tile">
+        <div class="score-tile-content gray">
+          <div class="score-tile-description text-faded">Failure</div>
+          <div class="score-tile-number text-faded">{{.result.Data.Attributes.Stats.Failure}}</div>
+          <div class="score-tile-footer" 
+            ><i class="fa fa-chevron-score-right"></i
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="card-deck">
+  {{range $key, $value := .result.Data.Attributes.Results}}
+  <div class="card-col-4" style="min-width: 18rem">
+    <div class="card-body bg-primary">
+      <h5 class="card-title">{{$key}}</h5>
+
+      <!--Category background dependet of the result-->
+      {{if eq $value.Category "harmless"}}
+      <p class="category harmless">Result: {{$value.Category}}</p>
+      {{else}} {{if eq $value.Category "malicious"}}
+      <p class="category malicious">Result: {{$value.Category}}</p>
+      {{else}}
+      <p class="category undetected">Result: {{$value.Category}}</p>
+      {{end}} {{end}}
+
+      <p class="EngineName-text">Engine Name: {{$value.EngineName}}</p>
+      <p class="EngineUpdate-text">Engine Update: {{$value.EngineUpdate}}</p>
+      <p class="EngineVersion-text">Engine Version: {{$value.EngineVersion}}</p>
+      <p class="Method-text">Method:{{$value.Method}}</p>
+
+      <!--Result background dependet of the result-->
+      {{if eq $value.Result "clean"}}
+      <p class="result clean">Result: {{$value.Result}}</p>
+      {{else}} {{if or (eq $value.Category "malicious") (eq $value.Category
+      "phishing") }}
+      <p class="result malicious">Result: {{$value.Result}}</p>
+      {{else}}
+      <p class="result undetected">Result: {{$value.Result}}</p>
+      {{end}} {{end}}
+    </div>
+  </div>
+  {{end}}
+</div>
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

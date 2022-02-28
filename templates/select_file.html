@@ -1,0 +1,60 @@
+<!--select_file.html-->
+<!-- routes to /uploadFile-->
+<!--Embed the header.html template at this location -->
+{{ template "header.html" .}}
+
+<h5>Lade eine Datei hoch</h5>
+<form
+  name="scanFileForm"
+  action="/upload/"
+  enctype="multipart/form-data"
+  method="POST"
+>
+  <div class="input-group">
+    <div class="custom-file">
+      <input
+        type="file"
+        class="custom-file-input"
+        id="inputGroupFile01"
+        name="file"
+        aria-describedby="inputGroupFileAddon01"
+        required
+      />
+      <label class="custom-file-label" for="inputGroupFile01"
+        >Datei wählen</label
+      >
+    </div>
+  </div>
+  <button
+    type="submit"
+    value="Upload"
+    class="btn btn-primary mb-2"
+    style="margin-top: 15px"
+    id="btnUpload"
+  >
+    Scan starten
+  </button>
+</form>
+<script>
+  document
+    .querySelector(".custom-file-input")
+    .addEventListener("change", function (e) {
+      var name = document.getElementById("inputGroupFile01").files[0].name;
+      var nextSibling = e.target.nextElementSibling;
+      nextSibling.innerText = name;
+    });
+</script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#btnUpload").click(function () {
+      // add spinner to button
+      if (document.forms["scanFileForm"]["file"].files.length != 0) {
+        $(this).html(
+          `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+        );
+      }
+    });
+  });
+</script>
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

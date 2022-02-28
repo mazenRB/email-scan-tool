@@ -1,0 +1,51 @@
+<!--header-result.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+<table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <h1>Scanergebnisse:</h1>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Absender:</td>
+        <td>{{.From}}</td>
+      </tr>      
+      <tr>
+        <td>IP-Adresse:</td>
+        <td>{{.Received}}</td>
+      </tr>
+      <tr>
+        <td>SPF-Check:</td>
+        {{if eq .SPF "pass"}}
+        <td style="background-color:#00ff40" >{{.SPF}}</td>
+        {{else}}
+        <td style="background-color:#e9233d" >{{.SPF}}</td>
+        {{end}}
+      </tr>
+      <tr>
+        <td>Return-Path:</td>
+        <td>{{.RPath}}</td>
+      </tr>                  
+      <tr>
+        <td>Datum:</td>
+        <td>{{.Date}}</td>
+      </tr>
+      <tr>
+        <td>An:</td>
+        <td>{{.To}}</td>
+      </tr>
+      <tr>
+          <td> Betreff:</td>
+          <td>{{.Subject}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

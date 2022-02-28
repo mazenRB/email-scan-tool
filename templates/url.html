@@ -1,0 +1,31 @@
+<!--url.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+<h5>Scan a URL or IP address</h5>
+
+<!-- Alte Form
+<div style="margin: 3em">
+  <form action="/url-scan/result" method="post">
+    <input type="text" name="url" placeholder="IP or URL" />
+    <input type="submit" value="Scan" class="btn btn-primary mb-2" />
+  </form>
+</div>-->
+
+<form action="/url-scan/result" method="post" name="scanUrlForm">
+  <input
+    type="text"
+    name="url"
+    placeholder="IP or URL"
+    class="form-control mb-2 mr-sm-2"
+    required
+    autofocus
+  />
+  <button type="submit" value="Scan" id="btnFetch" class="btn btn-primary mb-2">
+    Scan
+  </button>
+</form>
+
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}
